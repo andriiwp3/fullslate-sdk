@@ -14,7 +14,7 @@ class FullSlateClient {
             authType
         });
 
-        this.auth = new AuthResource({ apiClient });
+        this.auth = new AuthResource({ apiClient, endpoints: AuthResource.endpoints, schemas: AuthResource.schemas });
     }
 }
 

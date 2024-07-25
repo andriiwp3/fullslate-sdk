@@ -1,13 +1,14 @@
 const BaseResource = require("../base");
-const { AUTH_ENDPOINTS } = require("./constants");
 
 class AuthResource extends BaseResource {
-    authorize() {
-        return this.apiClient.post(AUTH_ENDPOINTS.AUTHORIZE);
+    async authorize({ email, password }) {
+        const body = this.schemas.authorizeSchema.parse({ email, password })
+        return this.apiClient.post(this.endpoints.AUTHORIZE, { body });
     }
 
-    refreshToken() {
-        return this.apiClient.post(AUTH_ENDPOINTS.REFRESH_TOKEN);
+    async refreshToken({ refreshToken }) {
+        const body = this.schemas.refreshTokenSchema.parse({ refreshToken })
+        return this.apiClient.post(this.endpoints.REFRESH_TOKEN, { body });
     }
 }
 
