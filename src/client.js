@@ -1,6 +1,7 @@
-const ApiClient = require('./apiClient')
+const ApiClient = require('./apiClient');
 
 const AuthResource = require('./resources/auth')
+const AppointmentResource = require('./resources/appointments');
 
 class FullSlateClient {
     constructor(options = {}) {
@@ -15,6 +16,7 @@ class FullSlateClient {
         });
 
         this.auth = new AuthResource({ apiClient, endpoints: AuthResource.endpoints, schemas: AuthResource.schemas });
+        this.appointments = new AppointmentsResource({ apiClient, endpoints: AppointmentResource.endpoints, schemas: AppointmentResource.schemas });
     }
 }
 
