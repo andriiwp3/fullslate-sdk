@@ -1,9 +1,3 @@
-const OpeningsResource = require('./resource');
-
-const schemas = require('./schemas');
-const { ENDPOINTS } = require('./constants');
-
-OpeningsResource.endpoints = ENDPOINTS;
-OpeningsResource.schemas = schemas;
-
-module.exports = OpeningsResource;
+export { default as resource } from './resource.js';
+export * as schemas from './schemas.js';
+export { ENDPOINTS as endpoints } from './constants.js';

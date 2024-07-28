@@ -1,11 +1,11 @@
-const ApiClient = require('./apiClient');
+import ApiClient from './apiClient.js';
 
-const AuthResource = require('./resources/auth')
-const AppointmentsResource = require('./resources/appointments');
-const LocationsResource = require('./resources/locations');
-const OpeningsResource = require('./resources/openings');
+import * as AuthResource from './resources/auth/index.js'
+import * as AppointmentsResource from './resources/appointments/index.js'
+import * as LocationsResource from './resources/locations/index.js'
+import * as OpeningsResource from './resources/openings/index.js'
 
-class FullSlateClient {
+export default class FullSlateClient {
     constructor(options = {}) {
         const { key, token, authType } = options;
 
@@ -17,11 +17,10 @@ class FullSlateClient {
             authType
         });
 
-        this.auth = new AuthResource({ apiClient, endpoints: AuthResource.endpoints, schemas: AuthResource.schemas });
-        this.appointments = new AppointmentsResource({ apiClient, endpoints: AppointmentsResource.endpoints, schemas: AppointmentsResource.schemas });
-        this.locations = new LocationsResource({ apiClient, endpoints: LocationsResource.endpoints, schemas: LocationsResource.schemas });
-        this.openings = new OpeningsResource({ apiClient, endpoints: OpeningsResource.endpoints, schemas: OpeningsResource.schemas });
+        this.auth = new AuthResource.resource({ apiClient, endpoints: AuthResource.endpoints, schemas: AuthResource.schemas });
+        this.appointments = new AppointmentsResource.resource({ apiClient, endpoints: AppointmentsResource.endpoints, schemas: AppointmentsResource.schemas });
+        this.locations = new LocationsResource.resource({ apiClient, endpoints: LocationsResource.endpoints, schemas: LocationsResource.schemas });
+        this.openings = new OpeningsResource.resource({ apiClient, endpoints: OpeningsResource.endpoints, schemas: OpeningsResource.schemas });
     }
 }
 
-module.exports = FullSlateClient;

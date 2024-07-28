@@ -1,4 +1,4 @@
-const ENDPOINTS = Object.freeze({
+export const ENDPOINTS = Object.freeze({
     GET_SCHEDULED: '/appointments',
     CREATE: '/appointments',
     GET: '/appointments/{id}',
@@ -8,5 +8,3 @@ const ENDPOINTS = Object.freeze({
     DECLINE: '/appointments/{id}/decline',
     GET_REVIEW: '/appointments/review_list'
 })
-
-module.exports = { ENDPOINTS };

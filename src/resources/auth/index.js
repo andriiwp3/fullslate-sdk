@@ -1,9 +1,3 @@
-const AuthResource = require('./resource');
-
-const schemas = require('./schemas');
-const { ENDPOINTS } = require('./constants');
-
-AuthResource.endpoints = ENDPOINTS;
-AuthResource.schemas = schemas;
-
-module.exports = AuthResource;
+export { default as resource } from './resource.js';
+export * as schemas from './schemas.js';
+export { ENDPOINTS as endpoints } from './constants.js';

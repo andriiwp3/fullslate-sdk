@@ -1,4 +1,4 @@
-const { z } = require("zod");
+import { z } from "zod";
 
 const service = z.number().positive();
 const employee = z.number().positive();
@@ -50,11 +50,11 @@ const appointment = z.object({
     passphrase: z.string(),
 })
 
-const create = appointment.omit({ id: true });
+export const create = appointment.omit({ id: true });
 
-const getReview = appointment.pick({ employees: true })
+export const getReview = appointment.pick({ employees: true })
 
-const getScheduled = appointment.pick({
+export const getScheduled = appointment.pick({
     to: true,
     status: true,
     confirmed: true
@@ -62,16 +62,16 @@ const getScheduled = appointment.pick({
     from: z.date(),
     employees: z.array(employee),
     service,
-    include_deleted,
-    changed_since,
-    client_id,
+    include_deleted: z.boolean(),
+    changed_since: z.date(),
+    client_id: z.number().positive(),
 });
 
-const get = appointment.pick({ id: true }).extend({
+export const get = appointment.pick({ id: true }).extend({
     state_at: z.date(),
 });
 
-const update = appointment.omit({
+export const update = appointment.omit({
     location_id: true,
     recurrence_mode: true,
     recur_end_at: true,
@@ -84,7 +84,7 @@ const update = appointment.omit({
     reassign_employee_if_necessary: z.boolean(),
 });
 
-const remove = appointment.pick({
+export const remove = appointment.pick({
     id: true,
     at: true,
     send_employee_notification_email: true,
@@ -95,22 +95,11 @@ const remove = appointment.pick({
     cancellation_message: z.string()
 })
 
-const accept = appointment.pick({ id: true }).extend({
+export const accept = appointment.pick({ id: true }).extend({
     notify_client: z.boolean(),
     accept_with_conflict: z.boolean(),
 })
 
-const decline = appointment.pick({ id: true }).extend({
+export const decline = appointment.pick({ id: true }).extend({
     notify_client: z.boolean(),
 })
-
-module.exports = {
-    getScheduled,
-    create,
-    get,
-    update,
-    remove,
-    accept,
-    decline,
-    getReview,
-}

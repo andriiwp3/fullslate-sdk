@@ -1,9 +1,9 @@
-class ApiClient {
+export default class ApiClient {
     #baseUrl;
 
     async get(url, { params, queryParams }) {
-        const url = this.#generateUrl(url, { params, queryParams });
-        const response = await fetch(url, {
+        const generatedUrl = this.#generateUrl(url, { params, queryParams });
+        const response = await fetch(generatedUrl, {
             method: 'GET',
         });
 
@@ -11,8 +11,8 @@ class ApiClient {
     }
     
     async post(url, { params, queryParams, body, headers }) {
-        const url = this.#generateUrl(url, { params, queryParams });
-        const response = await fetch(url, {
+        const generatedUrl = this.#generateUrl(url, { params, queryParams });
+        const response = await fetch(generatedUrl, {
             method: 'POST',
             body: JSON.stringify(body),
             headers
@@ -22,8 +22,8 @@ class ApiClient {
     }
 
     async put(url, { params, queryParams, body, headers }) {
-        const url = this.#generateUrl(url, { params, queryParams });
-        const response = await fetch(url, {
+        const generatedUrl = this.#generateUrl(url, { params, queryParams });
+        const response = await fetch(generatedUrl, {
             method: 'PUT',
             body: JSON.stringify(body),
             headers
@@ -33,8 +33,8 @@ class ApiClient {
     }
 
     async patch(url, { params, queryParams, body, headers }) {
-        const url = this.#generateUrl(url, { params, queryParams });
-        const response = await fetch(url, {
+        const generatedUrl = this.#generateUrl(url, { params, queryParams });
+        const response = await fetch(generatedUrl, {
             method: 'PATCH',
             body: JSON.stringify(body),
             headers
@@ -44,8 +44,8 @@ class ApiClient {
     }
 
     async delete(url, { params, queryParams, body, headers }) {
-        const url = this.#generateUrl(url, { params, queryParams });
-        const response = await fetch(url, {
+        const generatedUrl = this.#generateUrl(url, { params, queryParams });
+        const response = await fetch(generatedUrl, {
             method: 'DELETE',
             body: JSON.stringify(body),
             headers
@@ -64,5 +64,3 @@ class ApiClient {
         return url;
     }
 }
-
-module.exports = ApiClient;

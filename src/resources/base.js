@@ -1,4 +1,4 @@
-class BaseResource {
+export default class BaseResource {
     #apiClient;
     #endpoints;
     #schemas;
@@ -23,5 +23,3 @@ class BaseResource {
         return this.#schemas;
     }
 }
-
-module.exports = BaseResource;

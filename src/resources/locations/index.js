@@ -1,9 +1,3 @@
-const LocationsResource = require('./resource');
-
-const schemas = require('./schemas');
-const { ENDPOINTS } = require('./constants');
-
-LocationsResource.endpoints = ENDPOINTS;
-LocationsResource.schemas = schemas;
-
-module.exports = LocationsResource;
+export { default as resource } from './resource.js';
+export * as schemas from './schemas.js';
+export { ENDPOINTS as endpoints } from './constants.js';

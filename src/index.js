@@ -1,3 +1,3 @@
-const FullSlateClient = require('./client');
+import FullSlateClient from './client';
 
-module.exports = FullSlateClient;
+export default FullSlateClient;

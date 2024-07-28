@@ -1,9 +1,3 @@
-const AppointmentsResource = require('./resource');
-
-const schemas = require('./schemas');
-const { ENDPOINTS } = require('./constants');
-
-AppointmentsResource.endpoints = ENDPOINTS;
-AppointmentsResource.schemas = schemas;
-
-module.exports = AppointmentsResource;
+export { default as resource } from './resource.js';
+export * as schemas from './schemas.js';
+export { ENDPOINTS as endpoints } from './constants.js';

@@ -1,8 +1,9 @@
 {
   "name": "fullslate-sdk",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A lightweight JavaScript wrapper for FullSlate V2 API",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

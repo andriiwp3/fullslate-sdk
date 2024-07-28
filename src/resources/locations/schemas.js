@@ -1,4 +1,4 @@
-const { z } = require("zod");
+import { z } from "zod"
 
 const location = z.object({
     id: z.number().positive(),
@@ -11,14 +11,7 @@ const location = z.object({
     position: z.string(),
 })
 
-const create = location.pick({ name: true, street1: true, street2: true, city: true, state: true, postal_code: true });
-const get = location.pick({ id: true }).required();
-const update = location.partial().required({ id: true });
-const remove = location.pick({ id: true }).required();
-
-module.exports = {
-    create,
-    get,
-    update,
-    remove,
-}
+export const create = location.pick({ name: true, street1: true, street2: true, city: true, state: true, postal_code: true });
+export const get = location.pick({ id: true }).required();
+export const update = location.partial().required({ id: true });
+export const remove = location.pick({ id: true }).required();

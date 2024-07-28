@@ -1,6 +1,6 @@
-const BaseResource = require("../base");
+import BaseResource from "../base.js";
 
-class AuthResource extends BaseResource {
+export default class AuthResource extends BaseResource {
     async authorize({ email, password }) {
         const body = this.schemas.authorize.parse({ email, password })
         return this.apiClient.post(this.endpoints.AUTHORIZE, { body });
@@ -11,5 +11,3 @@ class AuthResource extends BaseResource {
         return this.apiClient.post(this.endpoints.REFRESH_TOKEN, { body });
     }
 }
-
-module.exports = AuthResource;
