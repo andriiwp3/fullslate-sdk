@@ -29,14 +29,13 @@ describe('Locations Resource', () => {
                 getInvalidTypeError({ expected: "string", path: ["street1"] }),
                 getInvalidTypeError({ expected: "string", path: ["city"] }),
                 getInvalidTypeError({ expected: "string", path: ["state"] }),
-                getInvalidTypeError({ expected: "string", path: ["postal_code"] })
+                getInvalidTypeError({ expected: "string", path: ["postalCode"] })
             ]));
         })
 
         test('should call api with passed parameteres', async () => {
             const payload = { name: 'Name', street1: "27 st.Git", city: 'London', state: 'England', postalCode: 'E1' };
-            const { postalCode, ...apiPayload } = payload;
-            apiPayload.postal_code = postalCode;
+            const apiPayload = { name: payload.name, street1: payload.street1, city: payload.city, state: payload.state, postal_code: payload.postalCode };
 
             await locationsResource.create(payload);
 
