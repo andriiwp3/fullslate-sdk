@@ -1,13 +1,13 @@
 import BaseResource from "../base.js";
 
 export default class AuthResource extends BaseResource {
-    async authorize({ email, password }) {
-        const body = this.schemas.authorize.parse({ email, password })
+    async authorize(payload) {
+        const body = this.schemas.authorize.parse(payload)
         return this.apiClient.post(this.endpoints.AUTHORIZE, { body });
     }
 
-    async refreshToken({ refreshToken }) {
-        const body = this.schemas.refreshToken.parse({ refreshToken })
+    async refreshToken(payload) {
+        const body = this.schemas.refreshToken.parse(payload)
         return this.apiClient.post(this.endpoints.REFRESH_TOKEN, { body });
     }
 }
