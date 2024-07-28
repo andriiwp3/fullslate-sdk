@@ -4,7 +4,7 @@ const location = z.object({
     id: z.number().positive(),
     name: z.string(),
     street1: z.string(),
-    street2: z.string(),
+    street2: z.string().optional(),
     city: z.string(),
     state: z.string(),
     postal_code: z.string(),

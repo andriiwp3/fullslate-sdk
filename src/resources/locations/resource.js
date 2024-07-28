@@ -5,8 +5,8 @@ export default class LocationsResource extends BaseResource {
         return this.apiClient.get(this.endpoints.GET_MANY);
     }
 
-    async create({ name, street1, street2, city, state, postal_code }) {
-        const body = this.schemas.create.parse({ name, street1, street2, city, state, postal_code })
+    async create({ name, street1, street2, city, state, postalCode }) {
+        const body = this.schemas.create.parse({ name, street1, street2, city, state, postal_code: postalCode })
         return this.apiClient.post(this.endpoints.CREATE, { body });
     }
 
@@ -15,8 +15,8 @@ export default class LocationsResource extends BaseResource {
         return this.apiClient.get(this.endpoints.GET, { params });
     }
 
-    async update(locationId, { name, street1, street2, city, state, postal_code }) {
-        const { id, ...body } = this.schemas.create.parse({ id: locationId, name, street1, street2, city, state, postal_code })
+    async update(locationId, { name, street1, street2, city, state, postalCode }) {
+        const { id, ...body } = this.schemas.update.parse({ id: locationId, name, street1, street2, city, state, postal_code: postalCode })
         const params = { id };
         return this.apiClient.patch(this.endpoints.UPDATE, { params, body });
     }
