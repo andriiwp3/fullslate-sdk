@@ -1,6 +1,6 @@
 {
   "name": "fullslate-sdk",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A lightweight JavaScript wrapper for FullSlate V2 API",
   "main": "index.js",
   "scripts": {
