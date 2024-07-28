@@ -1,105 +1,104 @@
 import { z } from "zod";
-
-const service = z.number().positive();
-const employee = z.number().positive();
+import { mapObjectKeysDeep } from "../../utils/object.js";
+import { toSnakeCase } from "../../utils/string.js";
 
 const appointment = z.object({
-    id: z.string().min(1),
-    at: z.date(),
-    to: z.date(),
-    services: z.array(service),
-    employee,
-    location_id: z.number().positive(),
-    custom_fields: z.array(z.object({ label: z.string(), value: z.string() })),
-    client_with_creation: z.object({
-        first_name: z.string().min(1),
-        last_name: z.string().min(1),
-        birthday: z.date(),
-        no_automatic_email: z.boolean(),
-        no_sms: z.boolean(),
-        mass_email_opt_in: z.boolean(),
-        sms_reminder_consent: z.boolean(),
-        phone_number: z.object({
+    id: z.number().positive().min(1),
+    at: z.string().datetime({ offset: true }),
+    to: z.string().datetime({ offset: true }).optional(),
+    services: z.array(z.number().positive()),
+    employee: z.number().positive().optional(),
+    locationId: z.number().positive().optional(),
+    customFields: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
+    clientWithCreation: z.object({
+        firstName: z.string().min(1),
+        lastName: z.string().min(1),
+        birthday: z.string().date().optional(),
+        noAutomaticEmail: z.boolean().optional(),
+        noSms: z.boolean().optional(),
+        massEmailOptIn: z.boolean().optional(),
+        smsReminderConsent: z.boolean().optional(),
+        phoneNumber: z.object({
             number: z.string().min(1),
-            contact_type: z.enum(['HOME', 'MOBILE', 'WORK', 'FAX', 'PAGER', 'OTHER', 'PRIMARY', 'SECONDARY'])
+            contactType: z.enum(['HOME', 'MOBILE', 'WORK', 'FAX', 'PAGER', 'OTHER', 'PRIMARY', 'SECONDARY']).optional()
         }),
         address: z.object({
             street1: z.string().min(1),
-            street2: z.string(),
-            city: z.string(),
-            state: z.string(),
-            postal_code: z.string(),
+            street2: z.string().optional(),
+            city: z.string().optional(),
+            state: z.string().optional(),
+            postalCode: z.string().optional(),
         }),
-        email: z.string(),
-        time_zone: z.string(),
-    }),
-    client: z.number().positive(),
-    recurrence_mode: z.string(),
-    recurrence_interval: z.number(),
-    recur_end_at: z.date(),
-    notes: z.string(),
-    client_notes: z.string(),
-    promo_code: z.string(),
-    status: z.enum(['STATUS_NO_SHOW', 'STATUS_CHECKED_IN', 'STATUS_COMPLETE', 'STATUS_BOOKED']),
-    api_options: z.object(z.any()),
-    client_preferred_employee: z.boolean(),
-    confirmed: z.boolean(),
-    send_client_confirmation_email: z.boolean(),
-    send_employee_notification_email: z.boolean(),
-    user_type: z.enum(['CLIENT', 'BUSINESS_USER']),
-    passphrase: z.string(),
+        email: z.string().optional(),
+        timeZone: z.string().optional(),
+    }).optional(),
+    client: z.number().positive().optional(),
+    recurrenceMode: z.string().optional(),
+    recurrenceInterval: z.number().optional(),
+    recurEndAt: z.string().date().optional(),
+    notes: z.string().optional(),
+    clientNotes: z.string().optional(),
+    promoCode: z.string().optional(),
+    status: z.enum(['STATUS_NO_SHOW', 'STATUS_CHECKED_IN', 'STATUS_COMPLETE', 'STATUS_BOOKED']).optional(),
+    apiOptions: z.any().optional(),
+    clientPreferredEmployee: z.boolean().optional(),
+    confirmed: z.boolean().optional(),
+    sendClientConfirmationEmail: z.boolean().optional(),
+    sendEmployeeNotificationEmail: z.boolean().optional(),
+    userType: z.enum(['CLIENT', 'BUSINESS_USER']).optional(),
+    passphrase: z.string().optional(),
 })
 
-export const create = appointment.omit({ id: true });
+export const create = appointment.omit({ id: true }).transform(x => mapObjectKeysDeep(x, toSnakeCase));
 
-export const getReview = appointment.pick({ employees: true })
+export const getReview = z.object({ employees: z.array(z.number().positive()) });
 
 export const getScheduled = appointment.pick({
-    to: true,
     status: true,
     confirmed: true
 }).extend({
-    from: z.date(),
-    employees: z.array(employee),
-    service,
-    include_deleted: z.boolean(),
-    changed_since: z.date(),
-    client_id: z.number().positive(),
-});
+    to: z.string().date().optional(),
+    from: z.string().date().optional(),
+    employees: z.array(z.number().positive()).optional().transform(v => v.join(',')),
+    service: z.number().positive().optional(),
+    includeDeleted: z.boolean().optional(),
+    changedSince: z.string().datetime({ offset: true }).optional(),
+    clientId: z.number().positive().optional(),
+}).transform(x => mapObjectKeysDeep(x, toSnakeCase));
 
 export const get = appointment.pick({ id: true }).extend({
-    state_at: z.date(),
-});
+    stateAt: z.string().datetime({ offset: true }).optional(),
+}).transform(x => mapObjectKeysDeep(x, toSnakeCase));
 
 export const update = appointment.omit({
-    location_id: true,
-    recurrence_mode: true,
-    recur_end_at: true,
-    promo_code: true,
-    client_preferred_employee: true,
+    locationId: true,
+    recurrenceMode: true,
+    recurEndAt: true,
+    promoCode: true,
+    clientPreferredEmployee: true,
     passphrase: true,
-}).extend({
-    edit_at: z.date(),
-    update_recurrence_flag: z.enum(['FUTURE_OCCURRENCE', 'SINGLE_OCCURRENCE']),
-    reassign_employee_if_necessary: z.boolean(),
-});
+}).partial().extend({
+    editAt: z.string().datetime({ offset: true }).optional(),
+    updateRecurrenceFlag: z.enum(['FUTURE_OCCURRENCE', 'SINGLE_OCCURRENCE']).optional(),
+    reassignEmployeeIfNecessary: z.boolean().optional(),
+}).required({ id: true }).transform(x => mapObjectKeysDeep(x, toSnakeCase));
 
 export const remove = appointment.pick({
     id: true,
     at: true,
-    send_employee_notification_email: true,
-    user_type: true,
-}).extend({
-    delete_future_occurences: z.boolean(),
-    send_client_cancel_email: z.boolean(),
-    cancellation_message: z.string()
-})
+    sendEmployeeNotificationEmail: true,
+    userType: true,
+}).partial().extend({
+    deleteFutureOccurences: z.boolean().optional(),
+    sendClientCancelEmail: z.boolean().optional(),
+    cancellationMessage: z.string().optional(),
+}).required({ id: true }).transform(x => mapObjectKeysDeep(x, toSnakeCase));
 
 export const accept = appointment.pick({ id: true }).extend({
-    notify_client: z.boolean(),
-    accept_with_conflict: z.boolean(),
-})
+    notifyClient: z.boolean().optional(),
+    acceptWithConflict: z.boolean().optional(),
+}).transform(x => mapObjectKeysDeep(x, toSnakeCase));
 
 export const decline = appointment.pick({ id: true }).extend({
-    notify_client: z.boolean(),
-})
+    notifyClient: z.boolean().optional(),
+}).transform(x => mapObjectKeysDeep(x, toSnakeCase));
