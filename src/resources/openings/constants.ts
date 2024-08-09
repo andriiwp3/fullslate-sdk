@@ -1,3 +1,3 @@
 export const ENDPOINTS = Object.freeze({
-    GET_AVAILABLE: '/openings',
+    GET_AVAILABLE: '/openings/search',
 })

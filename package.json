@@ -1,10 +1,11 @@
 {
   "name": "fullslate-sdk",
-  "version": "0.5.3",
+  "version": "0.7.3",
   "description": "A lightweight JavaScript wrapper for FullSlate V2 API",
-  "main": "index.js",
-  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
+    "start": "ts-node src/index",
+    "build": "tsup",
     "test": "vitest"
   },
   "repository": {
@@ -20,8 +21,16 @@
     "url": "https://github.com/andriiwp3/fullslate-sdk/issues"
   },
   "homepage": "https://github.com/andriiwp3/fullslate-sdk#readme",
+  "files": ["dist"],
   "dependencies": {
+    "@types/node": "^22.1.0",
     "vitest": "^2.0.4",
     "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
   }
 }
